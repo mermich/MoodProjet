@@ -1,0 +1,51 @@
+
+<p *ngIf="!moods"><em>Loading...</em></p>
+
+<div *ngIf="moods" class="row">
+  <div class="card" style="margin: auto; margin-top: 50px;">
+  <div class="card-content">
+      <span class="card-title">Gestion des humeurs</span>
+      <table class='table table-striped highlight' aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>Identifiant</th>
+        <th>Image</th>
+        <th>Date</th>
+        <th>Peripherique</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodsCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
+      </tr>
+      <tr *ngFor="let mood of moods">
+        <td>{{ mood.id }}</td>
+        <td><img src="/assets/{{ mood.moodFace.picture }}" style="height: 30px;padding-right: 10px"><span>{{mood.moodFace.label}}</span></td>
+        <td>{{ mood.date }}</td>
+        <td>{{ mood.device.label }}</td>
+        <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodsEdit/', mood.id]"><i class="material-icons right">edit</i>Modifier</a></td>
+        <td><a class="waves-effect waves-light btn right" (click)="selectMood(mood.id)" onclick="M.Modal.init(document.querySelector('.modal')).open()" ><i class="material-icons right">delete</i>Supprimer</a></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+    <!-- Modal Structure -->
+    <div class="modal">
+      <div class="modal-content">
+        <h4>Confirmation</h4>
+        <p>Etes vous sur de vouloir supprimer cette ligne ?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" (click)="deleteSelectedMood()" class="modal-close waves-effect waves-green btn-flat">OUI</a>
+      </div>
+    </div>

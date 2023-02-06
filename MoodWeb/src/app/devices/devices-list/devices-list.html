@@ -1,0 +1,33 @@
+<p *ngIf="!devices"><em>Loading...</em></p>
+
+
+<div *ngIf="devices" class="row">
+  <div class="card" style="margin: auto; margin-top: 50px;">
+  <div class="card-content">
+      <span class="card-title">Peripheriques</span>
+      <table class='table table-striped highlight' aria-labelledby="tableLabel">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Actif</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
+          </tr>
+          <tr *ngFor="let device of devices">
+            <td>{{ device.id }}</td>
+            <td>{{ device.label }}</td>
+            <td>{{ device.isActive }}</td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesEdit/', device.id]"><i class="material-icons right">edit</i>Modifier</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
