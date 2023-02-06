@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MoodProjet": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7120 --cors *",
+      "launchBrowser": false
+    }
+  } 
+}
