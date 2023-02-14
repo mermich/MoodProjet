@@ -17,7 +17,7 @@ namespace MoodProjet
         [FunctionName("MoodEntries-List")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "MoodEntries")] HttpRequest req)
         {
-            List<MoodEntry> moodEntrys = DbHelper.ListMoodEntries();
+            List<MoodEntry> moodEntrys = DbHelper.ListMoodEntries().Take(100).ToList();
 
             if (req.Query.ContainsKey("includes"))
             {
@@ -35,7 +35,7 @@ namespace MoodProjet
                     if (includeArray.Contains("device"))
                     {
                         List<Device> devices = DbHelper.ListDevices();
-                        moodEntrys = moodEntrys.Select(m => new MoodEntry(m.Id, m.MoodFaceId, m.Date, m.MoodDeviceId, m.moodFace, devices.FirstOrDefault(f => f.Id == m.MoodFaceId))).ToList();
+                        moodEntrys = moodEntrys.Select(m => new MoodEntry(m.Id, m.MoodFaceId, m.Date, m.MoodDeviceId, m.moodFace, devices.FirstOrDefault(f => f.Id == m.MoodDeviceId))).ToList();
                     }
                 }
             }
