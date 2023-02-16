@@ -19,13 +19,18 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesCreate/']"><i class="material-icons right">add</i>Ajouter</a>           
+            </td>
           </tr>
           <tr *ngFor="let device of devices">
             <td>{{ device.id }}</td>
             <td>{{ device.label }}</td>
-            <td>{{ device.isActive }}</td>
-            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesEdit/', device.id]"><i class="material-icons right">edit</i>Modifier</a></td>
+            <td>
+              <label *ngIf="device.isActive"><input type="checkbox" disabled="disabled" checked='checked'><span>Actif</span></label>
+              <label *ngIf="!device.isActive"><input type="checkbox" disabled="disabled"><span>Inactif</span></label>
+            </td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesEdit/', device.id]"><i class="material-icons right">edit</i>Modifier</a>
+            </td>
           </tr>
         </tbody>
       </table>
