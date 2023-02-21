@@ -3,21 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using MoodProjet.db;
+using MoodProjet.Devices;
+using MoodProjet.MoodFaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MoodProjet
+namespace MoodProjet.MoodEntries
 {
     public static class MoodEntriesFunction
     {
         [FunctionName("MoodEntries-List")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "MoodEntries")] HttpRequest req)
         {
-            List<MoodEntry> moodEntrys = DbHelper.ListMoodEntries().Take(100).ToList();
+            List<MoodEntry> moodEntrys = MoodEntriesDataManager.ListMoodEntries().Take(100).ToList();
 
             if (req.Query.ContainsKey("includes"))
             {
@@ -28,13 +29,13 @@ namespace MoodProjet
                     List<string> includeArray = includes.Split(',').ToList();
                     if (includeArray.Contains("moodFace"))
                     {
-                        List<MoodFace> faces = DbHelper.ListMoodFaces();
+                        List<MoodFace> faces = MoodFacesDataManager.ListMoodFaces();
                         moodEntrys = moodEntrys.Select(m => new MoodEntry(m.Id, m.MoodFaceId, m.Date, m.MoodDeviceId, faces.FirstOrDefault(f => f.Id == m.MoodFaceId), m.device)).ToList();
                     }
 
                     if (includeArray.Contains("device"))
                     {
-                        List<Device> devices = DbHelper.ListDevices();
+                        List<Device> devices = DevicesDataManager.ListDevices();
                         moodEntrys = moodEntrys.Select(m => new MoodEntry(m.Id, m.MoodFaceId, m.Date, m.MoodDeviceId, m.moodFace, devices.FirstOrDefault(f => f.Id == m.MoodDeviceId))).ToList();
                     }
                 }
@@ -46,7 +47,7 @@ namespace MoodProjet
         [FunctionName("MoodEntries-Get")]
         public static async Task<IActionResult> GetMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "MoodEntries/{id}")] HttpRequest req, int id)
         {
-            return new OkObjectResult(DbHelper.ListMoodEntries().FirstOrDefault(c => c.Id == id));
+            return new OkObjectResult(MoodEntriesDataManager.ListMoodEntries().FirstOrDefault(c => c.Id == id));
         }
 
         [FunctionName("MoodEntries-Save")]
@@ -55,22 +56,22 @@ namespace MoodProjet
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             MoodEntry moodEntry = JsonConvert.DeserializeObject<MoodEntry>(requestBody);
 
-            DbHelper.RunCommand($"INSERT INTO MoodEntry (`Date`,MoodDeviceId,MoodFaceId) VALUES ('{moodEntry.Date.ToString("yyyy-MM-dd H:mm:ss")}','{moodEntry.MoodDeviceId}','{moodEntry.MoodFaceId}');");
+            MoodEntriesDataManager.SaveMoodEntry(moodEntry);
         }
 
         [FunctionName("MoodEntries-Update")]
         public static async Task UpdateMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "MoodEntries")] HttpRequest req, ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            MoodEntry MoodEntry = JsonConvert.DeserializeObject<MoodEntry>(requestBody);
+            MoodEntry moodEntry = JsonConvert.DeserializeObject<MoodEntry>(requestBody);
 
-            DbHelper.RunCommand($"UPDATE MoodEntry SET `Date` = '{MoodEntry.Date.ToString("yyyy-MM-dd H:mm:ss")}', MoodDeviceId = '{MoodEntry.MoodDeviceId}',MoodFaceId = '{MoodEntry.MoodFaceId}' WHERE Id = {MoodEntry.Id};");
+            MoodEntriesDataManager.UpdateMoodEntry(moodEntry);
         }
 
         [FunctionName("MoodEntries-Delete")]
         public static Task DeleteMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "MoodEntries/{id}")] HttpRequest req, int id, ILogger log)
         {
-            DbHelper.RunCommand($"DELETE FROM MoodEntry WHERE Id={id};");
+            MoodEntriesDataManager.DeleteMoodEntry(id);
             return Task.CompletedTask;
         }
     }

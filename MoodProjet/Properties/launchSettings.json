@@ -3,7 +3,9 @@
     "MoodProjet": {
       "commandName": "Project",
       "commandLineArgs": "--port 7120 --cors *",
-      "launchBrowser": false
+      "environmentVariables": {
+        "MyConn": "Server=127.0.0.1;Port=3306;Database=moodDb;Uid=admin;Pwd=admin;"
+      }
     }
-  } 
+  }
 }
