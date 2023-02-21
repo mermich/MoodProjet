@@ -26,7 +26,7 @@ namespace MoodProjet.Init
             }
             catch (Exception)
             {
-                return "Something ssem wrong with the connection string please check file : launchSettings.json";
+                return "Something seems wrong with the connection string please check file : launchSettings.json";
             }
         }
 
@@ -98,7 +98,7 @@ namespace MoodProjet.Init
                         var script = new MySqlScript(conn, File.ReadAllText(initDbFile));
                         script.Execute();
 
-                        return $"Entries tables configured.";
+                        return $"Rows instered in the entrie table.";
                     }
                     catch (Exception e)
                     {
