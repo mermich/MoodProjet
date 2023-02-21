@@ -1,6 +1,9 @@
 ﻿Mood web est un projet de demonstration d'applicaiton simple page. 
-il est constititue d'une solution c# qui sert de serveur et d'une application Angular pour le client.
+Il est constititue d'une solution c# qui sert de serveur et d'une application Angular pour le client.
 Le donnees seront persistee dans une base de donnees MySql.
+
+# Pour commencer
+Cloner le repository GitHub ou telecharger un zip du repository. 
 
 # Lancer le projet serveur
 Ouvrir la solution `MoodProjet.sln` et lancer le programme en debug.
