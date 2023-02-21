@@ -38,10 +38,10 @@ export class BarchartDemoComponent implements OnInit {
       {
         this.barChartData.labels= this.moods.map(e=>e.date);
         this.barChartData.datasets=[
-          { data: this.moods.map(e=>e.face1Count), label: 'face 1' },
-          { data: this.moods.map(e=>e.face2Count), label: 'face 2' },
-          { data: this.moods.map(e=>e.face3Count), label: 'face 3' },
-          { data: this.moods.map(e=>e.face4Count), label: 'face 4' }
+          { data: this.moods.map(e=>e.face1Count), label: 'Heureux', borderColor: '#22B14C', backgroundColor: '#22B14C'},
+          { data: this.moods.map(e=>e.face2Count), label: 'Content', borderColor: '#B5E61D', backgroundColor: '#B5E61D'},
+          { data: this.moods.map(e=>e.face3Count), label: 'Neutre', borderColor: '#EFE4B0', backgroundColor: '#EFE4B0'},
+          { data: this.moods.map(e=>e.face4Count), label: 'Triste', borderColor: '#FF7F27', backgroundColor: '#FF7F27'},
         ];
 
         this.chart?.update();
