@@ -58,5 +58,13 @@ namespace MoodProjet.Charts
             List<ChartData> data = ChartsDataManager.GetChartData();
             return new OkObjectResult(data);
         }
+
+
+        [FunctionName("Charts-GetMoodByHours")]
+        public static async Task<IActionResult> GetMoodByHours([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        {
+            List<MoodByHour> data = ChartsDataManager.GetMoodByHours();
+            return new OkObjectResult(data);
+        }
     }
 }
