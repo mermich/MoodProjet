@@ -32,7 +32,7 @@ export class BarchartDemoComponent implements OnInit {
     console.log('ngOnInit');
 
     // pipe est la methode de manipulation des Obervable.
-    this.httpClient.get<MoodentriesChartData[]>('http://localhost:7120/api/GetChartData').subscribe(result => {
+    this.httpClient.get<MoodentriesChartData[]>('http://localhost:7120/api/Charts-GetChartData').subscribe(result => {
       this.moods = result;
       if( this.moods )
       {

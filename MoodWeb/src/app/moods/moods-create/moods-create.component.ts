@@ -30,7 +30,7 @@ export class MoodsCreate implements OnInit {
     this.mood.moodFaceId = 1;
 
     var now =  new Date(Date.now());
-    this.dateString =now.toISOString().substring(0, 10)+" "+now.getHours()+":"+now.getMinutes()+":00";
+    this.dateString =now.toISOString().substring(0, 10) +" "+ ("0" + now.getHours()).slice(-2) +":"+("0" + now.getMinutes()).slice(-2)+":00";
 
      this.httpClient.get<Device[]>('http://localhost:7120/api/Devices')
      .pipe(tap((x) => console.log(x)))
