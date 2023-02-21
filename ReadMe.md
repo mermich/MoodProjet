@@ -27,7 +27,7 @@ Ouvrir le dossier MoodWeb avec visual studio code, puis lancer les commandes dan
 `npm install` => cela va installer les packages npm requis pour l'application, suivant les packages deja installes la sortie du terminal devrai ressembler a (si il y a des warning ce n'est pas grave):
 `added 896 packages, and audited 897 packages in 32s
 86 packages are looking for funding
-  run `npm fund` for details
+  run npm fund for details
 found 0 vulnerabilities`
 
 ## Lancer le serveur
