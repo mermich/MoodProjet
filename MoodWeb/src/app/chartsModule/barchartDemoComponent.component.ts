@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType, scales } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { MoodByHoursChartData, MoodentriesChartData } from './mood';
-
+import { MoodentriesChartData } from './mood';
 
 @Component({
-  selector: 'mood-root',
+  selector: 'barchart',
   template: `
     <canvas baseChart class="chart"
         [data]="barChartData"
@@ -26,17 +25,17 @@ export class BarchartDemoComponent implements OnInit {
     this.httpClient = http;
   }
 
-  public moods : MoodByHoursChartData[]| undefined;
+  public moods : MoodentriesChartData[]| undefined;
 
   ngOnInit() {
     console.log('ngOnInit');
 
     // pipe est la methode de manipulation des Obervable.
-    this.httpClient.get<MoodByHoursChartData[]>('http://localhost:7120/api/Charts-GetMoodByHours').subscribe(result => {
+    this.httpClient.get<MoodentriesChartData[]>('http://localhost:7120/api/Charts-GetChartData').subscribe(result => {
       this.moods = result;
       if( this.moods )
       {
-        this.barChartData.labels= this.moods.map(e=>e.heure);
+        this.barChartData.labels= this.moods.map(e=>e.date);
         this.barChartData.datasets=[
           { data: this.moods.map(e=>e.face4Count), label: 'Triste', borderColor: '#FF7F27', backgroundColor: '#FFAF57', fill:true},
           { data: this.moods.map(e=>e.face3Count), label: 'Neutre', borderColor: '#EFE4B0', backgroundColor: '#FFF4E0', fill:true},
@@ -51,23 +50,10 @@ export class BarchartDemoComponent implements OnInit {
     );
   }
 
-  public barChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    scales: {
-      y: {
-        stacked: true
-      }
-    }
+  public barChartOptions: ChartConfiguration['options'] = { responsive: true  };
+  public barChartType: ChartType = 'bar';
 
-  };
-  public barChartType: ChartType = 'line';
-
-  public barChartData: ChartData<'line'> = {
-    datasets: [
-      { data: [ 65, 59, 80, 81, 56, 55, 40 ], label: 'Series A', fill:true },
-      { data: [ 28, 48, 40, 19, 86, 27, 90 ], label: 'Series B', fill:true }
-    ]
-  };
+  public barChartData: ChartData<'line'> = { datasets: [ ] };
 
   // events
   public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
