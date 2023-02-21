@@ -1,44 +1,24 @@
+﻿
+# Lancer le projet serveur
+Ouvrir la solution `MoodProjet.sln` et lancer le programme en debug.
+## Connexion a la base de donnees
+Avant tout editer la chaine de connexion a la base de donnees. Elle se trouve dans le fichier launchSettings.json
 
-# Pour Creer le projet Angular
-Ouvrir visual studio code et lancer la commande suivante :
-` ng new MoodWeb --style=css --minimal --prefix=mood --routing=true `
-
-# Pour lancer l'application web
-Se placer de le reprtoir de l'application web 
-` cd .\MoodWeb\   `
-Puis lancer le serveur
-` ng serve `
+## Initialisation de la base de donnees
+Une fois lance plusieurs services (endpoints) sont disponibles, notamment :
+ - Init-CheckDB: [GET] http://localhost:7120/api/CheckDB => permet de tester la chaine de connexion a la base de donnees.
+ - Init-KickStart: [POST] http://localhost:7120/api/KickStart => permet de lancer les scripts necessaires a la creation des tables, alimentation et insertion de donnees fictives.
 
 
-# Informations supplementaires pour la couche serveur
-## Chaine de connexion a la base de donnees
-Editer DbHelper.cs et corriger la chaine de connection pour pointer vers votre base de donnees:
-` "Server=127.0.0.1;Port=3306;Database=moodDb;Uid=admin;Pwd=admin;" `
+## Tester les services
+Pour tester les differents services il est recommande d'utiliser postman (https://www.postman.com/).
+La collection postman des differents services peut etre importe a partir du fichier : `Mood Project.postman_collection.json` .
 
-## Cors
-Si, interroger le serveur depuis Postman marche correctement mais pas depuis le projet Angular, il y a de fortes chanques que ce soit lie a CORS (https://developer.mozilla.org/fr/docs/Web/HTTP/CORS)
-Editer le fichier local.settings.json :
-` {
-  "IsEncrypted": false,
-  "Values": {
-    "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
-  },
-  "Host": {
-    "CORS": "*",
-    "CORSCredentials": false
-  }
-} `
 
-Editer launchSettings.json
-` {
-  "profiles": {
-    "MoodProjet": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7120 --cors *",
-      "launchBrowser": false
-    }
-  } 
-} `
 
-bien noter l'arguments --cors * qui autorize toutes les adresses a consulter cette ressource.
+# Lancer l'application cliente (Angular)
+Ouvrir le dossier MoodWeb avec visual studio code, puis lancer la commande `ng serve` dans le terminal :
+√ Compiled successfully.
+
+Ouvir un navigateur et aller sur la page : http://localhost:4200/
+L'ecran de saisie de mood devrai s'afficher.

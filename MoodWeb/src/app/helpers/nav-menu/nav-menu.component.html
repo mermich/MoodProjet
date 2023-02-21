@@ -1,8 +1,9 @@
 <header>
   <nav>
     <div class="nav-wrapper">
-      <a [routerLink]="['/MoodsCreate']" class="brand-logo right">Mood App</a>
-      <ul id="nav-mobile">
+      <a [routerLink]="['/MoodsCreate']" class="brand-logo">Mood App</a>
+
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodsList']"><i class="material-symbols-outlined left">dataset</i>Donnees</a></li>
         <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodFacesList']"><i class="material-icons left">mood</i>Types d'humeur</a></li>
         <li [routerLinkActive]="['link-active']"><a [routerLink]="['/DevicesList']"><i class="material-icons left">devices</i>Peripheriques</a></li>

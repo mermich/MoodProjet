@@ -1,7 +1,7 @@
-<div class="row" *ngIf="mood">
+<div class="row" *ngIf="mood && mood.moodFaceId && mood.moodDeviceId">
   <div class="card" style="margin: auto; margin-top: 50px;">
   <div class="card-content">
-      <span class="card-title">Modifier une humeur</span>
+      <span class="card-title">Modification de l'humeur du moment</span>
 <br><br>
      
       <div class="input-field">

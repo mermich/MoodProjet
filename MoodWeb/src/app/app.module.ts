@@ -19,12 +19,12 @@ import { MoodFacesEdit } from './mood-faces/mood-faces-edit/mood-faces-edit.comp
 import { MoodFacesCreate } from './mood-faces/mood-faces-create/mood-faces-create.component';
 
 import { NavMenuComponent } from './nav-menu/NavMenu.component';
-import { ParentChildDemoModule } from './parentChildDemo/parentChildDemo.module';
-import { DemoModule } from './demoModule/demoModule.module';
+import { ParentChildDemoModule } from './demos/parentChildDemo/parentChildDemo.module';
+import { DemoModule } from './demos/demoModule/demoModule.module';
 
 import { NgChartsModule } from 'ng2-charts';
 import { ChartsModule } from './chartsModule/demoModule.module';
-import { OuiNon } from './OuiNon';
+import { OuiNon } from './helpers/ouiNon';
 
 @NgModule({
   declarations: [

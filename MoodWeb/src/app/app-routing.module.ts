@@ -25,7 +25,8 @@ const routes: Routes = [
 
   { path: 'MoodFacesList', component: MoodFacesList },
   { path: 'MoodFacesEdit/:id', component: MoodFacesEdit },
-  { path: 'MoodFacesCreate', component: MoodFacesCreate }
+  { path: 'MoodFacesCreate', component: MoodFacesCreate },
+  { path: '', component: MoodsCreate }  
 ];
 
 @NgModule({
