@@ -47,9 +47,6 @@ order by  DATE(`Date`);";
             return result;
         }
 
-
-
-
       
         public static List<MoodByHour> GetMoodByHours()
         {
