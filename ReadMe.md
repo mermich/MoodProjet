@@ -19,9 +19,18 @@ La collection Postman des différents services peut etre importé à partir du f
 
 
 # Lancer l'application cliente (Angular)
-Ouvrir le dossier MoodWeb avec visual studio code, puis lancer la commande `ng serve` dans le terminal :
-√ Compiled successfully.
+Ouvrir le dossier MoodWeb avec visual studio code, puis lancer les commandes dans le terminal : 
+## Packages manquants
+`npm install` => cela va installer les packages npm requis pour l'application, suivant les packages deja installes la sortie du terminal devrai ressembler a (si il y a des warning ce n'est pas grave):
+`added 896 packages, and audited 897 packages in 32s
+86 packages are looking for funding
+  run `npm fund` for details
+found 0 vulnerabilities`
 
-Ouvrir un navigateur et aller sur la page : http://localhost:4200/
-L'ecran de saisie de mood devrai s'afficher.
+## Lancer le serveur
+`ng serve`  => cela va lancer la compilation du projet et lancer l'application web, si tous se passe bien le terminal devrai afficher :
 
+`** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+√ Compiled successfully.`
+
+Ouvrir un navigateur vers la page : http://localhost:4200/
