@@ -13,7 +13,7 @@
         <th>Date</th>
         <th>Peripherique</th>
         <th></th>
-        <th></th>
+        <th  class="hide-on-small-only"></th>
       </tr>
     </thead>
     <tbody>
@@ -22,16 +22,27 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodsCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
+        <td class="hide-on-small-only"></td>
+        <td>
+          <div class="hide-on-small-only">
+        <a class="waves-effect waves-light btn btn-small" [routerLink]="['/MoodsCreate/']">
+          <i class="material-icons right">add</i>Ajouter</a>
+        </div>
+        <div class="hide-on-med-and-up"><i class="material-icons" [routerLink]="['/MoodsCreate/']">add</i></div>
+      </td>
       </tr>
       <tr *ngFor="let mood of moods">
         <td>{{ mood.id }}</td>
-        <td><img src="/assets/{{ mood.moodFace.picture }}" style="height: 30px;padding-right: 10px"><span>{{mood.moodFace.label}}</span></td>
+        <td><img src="/assets/{{ mood.moodFace.picture }}" style="height: 30px;padding-right: 10px"></td>
         <td>{{ mood.date }}</td>
         <td>{{ mood.device.label }}</td>
-        <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodsEdit/', mood.id]"><i class="material-icons right">edit</i>Modifier</a></td>
-        <td><a class="waves-effect waves-light btn right" (click)="selectMood(mood.id)" onclick="M.Modal.init(document.querySelector('.modal')).open()" ><i class="material-icons right">delete</i>Supprimer</a></td>
+        <td>
+          <a class="waves-effect waves-light btn btn-small hide-on-small-only" [routerLink]="['/MoodsEdit/', mood.id]"><i class="material-icons right">edit</i>Modifier</a>
+          <div class="hide-on-med-and-up"><i class=" material-icons" [routerLink]="['/MoodsEdit/', mood.id]">edit</i></div>
+        </td>
+        <td class="hide-on-small-only">
+          <a class="waves-effect waves-light btn btn-small" (click)="selectMood(mood.id)" onclick="M.Modal.init(document.querySelector('.modal')).open()" ><i class="material-icons right">delete</i>Supprimer</a>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -46,6 +57,6 @@
         <p>Etes vous sur de vouloir supprimer cette ligne ?</p>
       </div>
       <div class="modal-footer">
-        <a href="#!" (click)="deleteSelectedMood()" class="modal-close waves-effect waves-green btn-flat">OUI</a>
+        <a (click)="deleteSelectedMood()" class="modal-close waves-effect waves-green btn-flat">OUI</a>
       </div>
     </div>

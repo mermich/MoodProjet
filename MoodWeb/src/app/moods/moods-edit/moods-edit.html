@@ -12,21 +12,18 @@
       <div class="input-field">
         <ul id="Humeur"  class="collection">
           <ng-container *ngFor="let moodFace of moodFaces">
-            <li class="collection-item moodActive" (click)="selectMoodFace(moodFace.id)" *ngIf="mood.moodFaceId===moodFace.id">
+            <li [className]="mood.moodFaceId==moodFace.id ? 'moodActive collection-item' : 'collection-item' " (click)="selectMoodFace(moodFace.id)">
               <img src="/assets/{{ moodFace.picture }}" style="height: 20px;padding-right: 10px">{{ moodFace.label }}
-            </li>
-            <li class="collection-item" (click)="selectMoodFace(moodFace.id)"  *ngIf="mood.moodFaceId!==moodFace.id">   
-              <img src="/assets/{{ moodFace.picture }}" style="height: 20px;padding-right: 10px;">{{ moodFace.label }}
             </li>
           </ng-container>
         </ul>
         <label for="Humeur" class="active">Humeur</label>
       </div>
-
+      
       <div class="input-field">
         <ul id="Peripherique"  class="collection">
           <ng-container *ngFor="let device of devices">
-            <li class="collection-item" (click)="selectDevice(device.id)">{{ device.label }}
+            <li class="collection-item" [className]="mood.moodDeviceId==device.id ? 'collection-item moodActive' : 'collection-item'" (click)="selectDevice(device.id)">{{ device.label }}
             </li>
           </ng-container>
         </ul>

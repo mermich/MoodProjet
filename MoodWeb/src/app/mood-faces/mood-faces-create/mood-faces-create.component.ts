@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MoodFace } from './mood-face';
+import { MoodFace } from "../../models"
 
 @Component({
   selector: 'MoodFacesCreate',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Device } from './device';
+import { Device } from "../../models"
 
 @Component({
   selector: 'DevicesEdit',
@@ -30,17 +30,10 @@ export class DevicesEdit implements OnInit {
     );
   }
 
-  delete() {
+  save() {
     if (this.device != undefined) {
-        this.httpClient.delete(`http://localhost:7120/api/Devices/${this.device.id}`)
-          .subscribe(result => this.router.navigate(['/DevicesList']));
+      this.httpClient.put(`http://localhost:7120/api/Devices`, this.device)
+        .subscribe(result => this.router.navigate(['/DevicesList']));
       }
     }
-
-    save() {
-      if (this.device != undefined) {
-        this.httpClient.put(`http://localhost:7120/api/Devices`, this.device)
-          .subscribe(result => this.router.navigate(['/DevicesList']));
-        }
-      }
 }

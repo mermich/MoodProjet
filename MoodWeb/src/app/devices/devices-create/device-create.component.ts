@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Device } from './device';
+import { Router } from '@angular/router';
+import { Device } from "../../models"
 
 @Component({
   selector: 'mood-device-create',
@@ -23,11 +23,9 @@ export class DeviceCreateComponent {
     this.httpClient = http;
   }
 
-
   save()
   {
-    // console.log(this.createDeviceForm.value);
-    // this.device.label = this.createDeviceForm.value.label;
-    this.httpClient.post(`http://localhost:7120/api/Devices/`, this.device).subscribe(result => this.router.navigate(['/devices']))
+    this.httpClient.post(`http://localhost:7120/api/Devices/`, this.device)
+      .subscribe(result => this.router.navigate(['/DevicesList']))
   }
 }

@@ -3,9 +3,10 @@
     <div class="nav-wrapper">
       <a [routerLink]="['/MoodsCreate']" class="brand-logo right">Mood App</a>
       <ul id="nav-mobile">
-        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodsList']">Moods</a></li>
-        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodFacesList']">MoodFaces</a></li>
-        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/DevicesList']">Devices</a></li>
+        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodsList']"><i class="material-symbols-outlined left">dataset</i>Donnees</a></li>
+        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/MoodFacesList']"><i class="material-icons left">mood</i>Types d'humeur</a></li>
+        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/DevicesList']"><i class="material-icons left">devices</i>Peripheriques</a></li>
+        <li [routerLinkActive]="['link-active']"><a [routerLink]="['/barchart']"><i class="material-symbols-outlined left">monitoring</i>Diagrammes</a>
       </ul>
     </div>
   </nav>

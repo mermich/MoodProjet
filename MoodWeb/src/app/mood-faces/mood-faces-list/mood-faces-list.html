@@ -4,11 +4,12 @@
 <div *ngIf="moodFaces" class="row">
   <div class="card" style="margin: auto; margin-top: 50px;">
   <div class="card-content">
-      <span class="card-title">Gestion des types d'humeur</span>
+      <span class="card-title"><i class="material-icons left">mood</i>Gestion des types d'humeur</span>
       <table class='table table-striped highlight' aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Id</th>
+            <th>Key</th>
             <th>Label</th>
             <th>Image</th>
             <th>Actif</th>
@@ -21,13 +22,15 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
             <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodFacesCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
           </tr>
           <tr *ngFor="let moodFace of moodFaces">
             <td>{{ moodFace.id }}</td>
+            <td>{{ moodFace.key }}</td>
             <td>{{ moodFace.label }}</td>
-            <td><img src="/assets/{{ moodFace.picture }}" style="height: 30px">{{ moodFace.picture }}</td>
-            <td>{{ moodFace.isActive }}</td>
+            <td><img src="/assets/{{ moodFace.picture }}" style="height: 30px"></td>
+            <td><ouiNon [val]=moodFace.isActive ></ouiNon></td>
             <td><a class="waves-effect waves-light btn right" [routerLink]="['/MoodFacesEdit/', moodFace.id]"><i class="material-icons right">edit</i>Modifier</a></td>
           </tr>
         </tbody>

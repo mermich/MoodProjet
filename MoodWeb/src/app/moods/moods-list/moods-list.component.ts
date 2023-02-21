@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Mood } from './mood';
+import { Device, Mood, MoodFace } from '../../models';
 
 @Component({
   selector: 'MoodsList',
@@ -21,8 +21,7 @@ export class MoodsList implements OnInit {
 
     this.httpClient.get<Mood[]>('http://localhost:7120/api/MoodEntries?includes=moodFace,device').subscribe(result => {
       this.moods = result;
-    }, error =>{ console.error(error)}
-    );
+    }, error =>{ console.error(error)});
   }
 
   selectedMood:number|undefined;
@@ -37,6 +36,7 @@ export class MoodsList implements OnInit {
     if(this.selectedMood != undefined)
     {
       this.httpClient.delete(`http://localhost:7120/api/MoodEntries/${this.selectedMood}`, ).subscribe(result => {
+        this.ngOnInit();
       }, error =>{ console.error(error)}
       );
   }

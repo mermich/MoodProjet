@@ -22,6 +22,10 @@ import { NavMenuComponent } from './nav-menu/NavMenu.component';
 import { ParentChildDemoModule } from './parentChildDemo/parentChildDemo.module';
 import { DemoModule } from './demoModule/demoModule.module';
 
+import { NgChartsModule } from 'ng2-charts';
+import { ChartsModule } from './chartsModule/demoModule.module';
+import { OuiNon } from './OuiNon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +41,8 @@ import { DemoModule } from './demoModule/demoModule.module';
 
     MoodFacesList,
     MoodFacesEdit,
-    MoodFacesCreate
+    MoodFacesCreate,
+    OuiNon
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +50,9 @@ import { DemoModule } from './demoModule/demoModule.module';
     FormsModule,
     AppRoutingModule,    
     ParentChildDemoModule,
-    DemoModule
+    DemoModule,
+    ChartsModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

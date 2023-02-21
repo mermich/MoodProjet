@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'mood-root',
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet></div>`,
   styles: []
 })
+
 export class AppComponent {
   title = 'MoodWeb';
 }

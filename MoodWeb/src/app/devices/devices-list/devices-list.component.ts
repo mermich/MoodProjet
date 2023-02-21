@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Device } from './device';
 import { Modal } from 'materialize-css';
+import { filter, map, Observable, tap } from 'rxjs';
+import { Device } from "../../models";
+
 
 @Component({
   selector: 'DevicesList',
@@ -19,11 +21,10 @@ export class DevicesList implements OnInit {
 
   ngOnInit() {
     console.log('ngOnInit');
-    this.httpClient.get<Device[]>('http://localhost:7120/api/Devices').subscribe(result => {
-      this.devices = result;
-    }, error =>{ console.error(error)}
-    );
+
+    // pipe est la methode de manipulation des Obervable.
+    var res = this.httpClient.get<Device[]>('http://localhost:7120/api/Devices')
+      .pipe(tap((x) => console.log(x)))
+      .subscribe(devices => this.devices = devices);
   }
 }
-
-export { Device };
