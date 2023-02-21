@@ -47,7 +47,7 @@ namespace MoodProjet.Init
             var res = new
             {
                 CheckDbConn = InitDataManager.CheckDbConn(),
-                InitDB = InitDataManager.CheckDbConn(),
+                InitDB = InitDataManager.InitDB(),
                 SetConfigurationTables = InitDataManager.SetConfigurationTables(),
                 SetEntriesTables = InitDataManager.SetEntriesTables(),
             };
