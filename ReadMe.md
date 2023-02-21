@@ -3,7 +3,7 @@
 Ouvrir la solution `MoodProjet.sln` et lancer le programme en debug.
 
 ## Connexion à la base de données
-Avant tout éditer la chaine de connexion à la base de données. Elle se trouve dans le fichier launchSettings.json
+Avant tout éditer la chaine de connexion à la base de données. Elle se trouve dans le fichier `launchSettings.json`
 
 ## Initialisation de la base de données
 Une fois lance plusieurs services (endpoints) sont disponibles, notamment :
