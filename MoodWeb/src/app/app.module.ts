@@ -18,7 +18,7 @@ import { MoodFacesList } from './mood-faces/mood-faces-list/mood-faces-list.comp
 import { MoodFacesEdit } from './mood-faces/mood-faces-edit/mood-faces-edit.component';
 import { MoodFacesCreate } from './mood-faces/mood-faces-create/mood-faces-create.component';
 
-import { NavMenuComponent } from './nav-menu/NavMenu.component';
+import { NavMenuComponent } from './helpers/nav-menu/NavMenu.component';
 import { ParentChildDemoModule } from './demos/parentChildDemo/parentChildDemo.module';
 import { DemoModule } from './demos/demoModule/demoModule.module';
 
