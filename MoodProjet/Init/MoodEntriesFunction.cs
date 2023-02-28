@@ -37,7 +37,10 @@ namespace MoodProjet.Init
             return new OkObjectResult(InitDataManager.SetEntriesTables());
         }
 
-
+        [FunctionName("Init-SetUsers")]
+        public static async Task<IActionResult> SetUsers([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetUsers")] HttpRequest req, ILogger log) {
+            return new OkObjectResult(InitDataManager.SetUsers());
+        }
 
 
 
@@ -50,6 +53,7 @@ namespace MoodProjet.Init
                 InitDB = InitDataManager.InitDB(),
                 SetConfigurationTables = InitDataManager.SetConfigurationTables(),
                 SetEntriesTables = InitDataManager.SetEntriesTables(),
+                SetUsers = InitDataManager.SetUsers(),
             };
 
             return new OkObjectResult(res);

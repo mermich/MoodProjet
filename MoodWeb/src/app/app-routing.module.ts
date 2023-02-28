@@ -13,6 +13,7 @@ import { MoodsCreate } from './moods/moods-create/moods-create.component';
 import { MoodFacesList } from './mood-faces/mood-faces-list/mood-faces-list.component';
 import { MoodFacesEdit } from './mood-faces/mood-faces-edit/mood-faces-edit.component';
 import { MoodFacesCreate } from './mood-faces/mood-faces-create/mood-faces-create.component';
+import { LoginComponent } from './auth/loginComponent.component';
 
 const routes: Routes = [
   { path: 'DevicesList', component: DevicesList },
@@ -26,7 +27,10 @@ const routes: Routes = [
   { path: 'MoodFacesList', component: MoodFacesList },
   { path: 'MoodFacesEdit/:id', component: MoodFacesEdit },
   { path: 'MoodFacesCreate', component: MoodFacesCreate },
-  { path: '', component: MoodsCreate }  
+
+  { path: 'login', component: LoginComponent },
+
+  { path: '', component: MoodsCreate }    
 ];
 
 @NgModule({

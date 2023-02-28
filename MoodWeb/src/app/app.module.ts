@@ -10,7 +10,6 @@ import { DevicesList } from './devices/devices-list/devices-list.component';
 import { DevicesEdit } from './devices/devices-edit/devices-edit.component';
 import { DeviceCreateComponent } from './devices/devices-create/device-create.component'
 
-import { MoodsList } from './moods/moods-list/moods-list.component';
 import { MoodsEdit } from './moods/moods-edit/moods-edit.component';
 import { MoodsCreate } from './moods/moods-create/moods-create.component';
 
@@ -25,6 +24,9 @@ import { DemoModule } from './demos/demoModule/demoModule.module';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartsModule } from './chartsModule/demoModule.module';
 import { OuiNon } from './helpers/ouiNon';
+import { LoginComponent } from './auth/loginComponent.component';
+import { MoodsList } from './moods/moods-list/moods-list.component';
+import { LoginResultService } from './auth/LoginResultService';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { OuiNon } from './helpers/ouiNon';
     MoodFacesList,
     MoodFacesEdit,
     MoodFacesCreate,
-    OuiNon
+    OuiNon,
+
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,7 +58,7 @@ import { OuiNon } from './helpers/ouiNon';
     ChartsModule,
     NgChartsModule
   ],
-  providers: [],
+  providers: [LoginResultService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

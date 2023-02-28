@@ -24,3 +24,27 @@ export class Device
   label: string = "";
   isActive: boolean = true;
 }
+
+export class UserLogin
+{
+  Login:string="";
+  Password: string = "";
+}
+
+export class LoginResult
+{ 
+  login: string = "";
+  isLoginOK:boolean=false;
+  token: string = "";
+}
+
+export class LoginToken
+{ 
+  CanAdminDevices: boolean = false;
+  CanAdminMoodEntries: boolean = false;
+  CanAdminMoodFaces: boolean = false;
+  CanSeeCharts: boolean =false;
+  isLoginOK:boolean=false;
+  exp:number=0;
+  nameid: string = "";
+}
