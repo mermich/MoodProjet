@@ -6,8 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 
-namespace MoodProjet.Auth {
-    public static class AuthDataManager {
+namespace MoodProjet.Auth
+{
+    public static class AuthDataManager
+    {
         public static MySqlConnection GetConn() => new MySqlConnection(Environment.GetEnvironmentVariable("MyConn"));
 
         public static UserLoginResult Login(UserLogin userLogin)
@@ -22,13 +24,15 @@ namespace MoodProjet.Auth {
                 c.Parameters.AddWithValue("@Login", userLogin.Login);
                 c.Parameters.AddWithValue("@Password", userLogin.Password);
 
-                using (MySqlDataReader reader = c.ExecuteReader()) {
-                    while (reader.Read()) {
+                using (MySqlDataReader reader = c.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
 
                         UserLoginResult userLoginResult = new UserLoginResult(
                             reader.GetInt32(0),
                             userLogin.Login,
-                            true,                           
+                            true,
                             reader.GetBoolean(1),
                             reader.GetBoolean(2),
                             reader.GetBoolean(3),
@@ -40,7 +44,7 @@ namespace MoodProjet.Auth {
                 }
             }
 
-            return new UserLoginResult(0, userLogin.Login, false,false,false, false, false);
+            return new UserLoginResult(0, userLogin.Login, false, false, false, false, false);
         }
     }
 }
