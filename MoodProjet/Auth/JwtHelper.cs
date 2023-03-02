@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -30,10 +31,10 @@ namespace MoodProjet.Auth
                 Audience = myAudience,
                 SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
                 Claims = new Dictionary<string, object> {
-                    { "CanAdminDevices", loginResult.CanAdminDevices },
-                    { "CanAdminMoodEntries", loginResult.CanAdminMoodEntries },
-                    { "CanAdminMoodFaces", loginResult.CanAdminMoodFaces },
-                    { "CanSeeCharts", loginResult.CanSeeCharts }
+                    { CanAdminDevices, loginResult.CanAdminDevices },
+                    { CanAdminMoodEntries, loginResult.CanAdminMoodEntries },
+                    { CanAdminMoodFaces, loginResult.CanAdminMoodFaces },
+                    { CanSeeCharts, loginResult.CanSeeCharts }
                 }
             };
 
@@ -79,5 +80,23 @@ namespace MoodProjet.Auth
             string stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
             return stringClaimValue;
         }
+
+        public static bool GetClaimAsBool(HttpRequest request, string claimType)
+        {
+            if (request.Headers.ContainsKey("Authorization"))
+            {
+                string claimString = GetClaim(request.Headers["Authorization"], claimType);
+                return claimString.ToLowerInvariant() == true.ToString().ToLowerInvariant();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public const string CanAdminDevices = "CanAdminDevices";
+        public const string CanAdminMoodEntries = "CanAdminMoodEntries";
+        public const string CanAdminMoodFaces = "CanAdminMoodFaces";
+        public const string CanSeeCharts = "CanSeeCharts";
     }
 }

@@ -9,9 +9,9 @@ import { Data } from './data';
 export class Child2Way {
 
   @Input()
-  public data: Data|undefined;
+  public data: Data | undefined;
 
-  @Output() 
+  @Output()
   public dataChange = new EventEmitter<Data>();
 
   dataChangeCall() {

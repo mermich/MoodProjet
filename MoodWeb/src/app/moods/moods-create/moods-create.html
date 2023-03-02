@@ -1,50 +1,54 @@
-<div class="row">
+<div (keyup.enter)="save()"  class="row">
   <div class="card" style="margin: auto; margin-top: 50px;">
-  <div class="card-content">
+    <div class="card-content">
       <span class="card-title"><i class="material-icons left">add_circle</i>Saisie de l'humeur du moment</span>
 
 
-<div class="input-field">
-  <input placeholder="label..." id="label" type="datetime-local" [(ngModel)]="dateString" value="{{dateString}}">
-  <label for="label" class="active">Date</label>
-</div>
+      <div class="input-field">
+        <input placeholder="label..." id="label" type="datetime-local" [(ngModel)]="dateString" value="{{dateString}}">
+        <label for="label" class="active">Date</label>
+      </div>
 
-<div class="input-field">
-  <ul id="Humeur"  class="collection">
-    <ng-container *ngFor="let moodFace of moodFaces">
-      <li [className]="mood.moodFaceId==moodFace.id ? 'moodActive collection-item' : 'collection-item' " (click)="selectMoodFace(moodFace.id)">
-        <img src="/assets/{{ moodFace.picture }}" style="height: 20px;padding-right: 10px">{{ moodFace.label }}
-      </li>
-    </ng-container>
-  </ul>
-  <label for="Humeur" class="active">Humeur</label>
-</div>
+      <div class="input-field">
+        <ul id="Humeur" class="collection">
+          <ng-container *ngFor="let moodFace of moodFaces">
+            <li [className]="mood.moodFaceId==moodFace.id ? 'moodActive collection-item' : 'collection-item' "
+              (click)="selectMoodFace(moodFace.id)">
+              <img src="/assets/{{ moodFace.picture }}" style="height: 20px;padding-right: 10px">{{ moodFace.label }}
+            </li>
+          </ng-container>
+        </ul>
+        <label for="Humeur" class="active">Humeur</label>
+      </div>
 
-<div class="input-field">
-  <ul id="Peripherique"  class="collection">
-    <ng-container *ngFor="let device of devices">
-      <li class="collection-item" [className]="mood.moodDeviceId==device.id ? 'collection-item moodActive' : 'collection-item'" (click)="selectDevice(device.id)">{{ device.label }}
-      </li>
-    </ng-container>
-  </ul>
-  <label for="Humeur" class="active">Peripherique</label>
-</div>
+      <div class="input-field">
+        <ul id="Peripherique" class="collection">
+          <ng-container *ngFor="let device of devices">
+            <li class="collection-item"
+              [className]="mood.moodDeviceId==device.id ? 'collection-item moodActive' : 'collection-item'"
+              (click)="selectDevice(device.id)">{{ device.label }}
+            </li>
+          </ng-container>
+        </ul>
+        <label for="Humeur" class="active">Peripherique</label>
+      </div>
 
-<div class="card-action">
-<a class="waves-effect waves-light btn" type="submit" click="save()" style="margin-right: 20px;" ><i class="material-icons right">save</i>Enregistrer</a>
-<a class="waves-effect waves-light btn" [routerLink]="['/MoodsList/']"><i class="material-icons right">cancel</i>Annuler</a>
-</div>
+      <div class="card-action">
+        <a class="waves-effect waves-light btn" type="submit" (click)="save()" style="margin-right: 20px;"><i
+            class="material-icons right">save</i>Enregistrer</a>
+        <a class="waves-effect waves-light btn" [routerLink]="['/MoodsList/']"><i
+            class="material-icons right">cancel</i>Annuler</a>
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
 
 
-<style>
-  .moodActive
-  {
-    border-top: 3px solid #26a69a;
-    border-bottom: 3px solid #26a69a !important;
-    border-left: 3px solid #26a69a;
-    border-right: 3px solid #26a69a;
-  }
-</style>
+  <style>
+    .moodActive {
+      border-top: 3px solid #26a69a;
+      border-bottom: 3px solid #26a69a !important;
+      border-left: 3px solid #26a69a;
+      border-right: 3px solid #26a69a;
+    }
+  </style>

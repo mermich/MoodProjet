@@ -19,34 +19,33 @@ import { BigData, Data } from './data';
   `
 })
 export class Parent implements OnInit {
-  public data: Data = new Data(1,'test');
+  public data: Data = new Data(1, 'test');
   public bigData: BigData = new BigData();
 
   clicks = 0;
   ngOnInit() {
 
-    this.data.label="coucou";
-    }
+    this.data.label = "coucou";
+  }
 
   updateChild1() {
     this.clicks++;
-    this.data.label="appendLabel"+this.clicks;
-    }
+    this.data.label = "appendLabel" + this.clicks;
+  }
 
   eventFromDataChild1(value: string) {
     this.clicks++;
-    this.bigData.datas[0].label = value+this.clicks;
-    this.bigData.datas[0].id = this.clicks;
-    }
-
-  eventFromDataChild2(value: Data) {
-    this.clicks++;
-    this.bigData.datas[0].label = value.label+this.clicks;
+    this.bigData.datas[0].label = value + this.clicks;
     this.bigData.datas[0].id = this.clicks;
   }
 
-  reset2Way()
-  {
-    this.bigData.datas[1].label='old label was '+this.bigData.datas[1].label;
+  eventFromDataChild2(value: Data) {
+    this.clicks++;
+    this.bigData.datas[0].label = value.label + this.clicks;
+    this.bigData.datas[0].id = this.clicks;
+  }
+
+  reset2Way() {
+    this.bigData.datas[1].label = 'old label was ' + this.bigData.datas[1].label;
   }
 }

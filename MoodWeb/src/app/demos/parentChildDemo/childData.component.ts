@@ -14,14 +14,14 @@ import { Data } from './data';
 })
 export class ChildData {
   @Input()
-  public data: Data= new Data(0,'');
+  public data: Data = new Data(0, '');
 
-  @Output() 
+  @Output()
   depuisChildEvent = new EventEmitter<string>();
 
-  @Output() 
+  @Output()
   depuisChildEventData = new EventEmitter<Data>();
-  
+
   MethodeDepuisChildEvent(value: string) {
     this.depuisChildEvent.emit(value);
   }

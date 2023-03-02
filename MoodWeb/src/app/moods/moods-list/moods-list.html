@@ -1,62 +1,65 @@
-
 <p *ngIf="!moods"><em>Loading...</em></p>
 
 <div *ngIf="moods" class="row">
   <div class="card" style="margin: auto; margin-top: 50px;">
-  <div class="card-content">
+    <div class="card-content">
       <span class="card-title">Gestion des humeurs</span>
       <table class='table table-striped highlight' aria-labelledby="tableLabel">
-    <thead>
-      <tr>
-        <th>Identifiant</th>
-        <th>Image</th>
-        <th>Date</th>
-        <th>Peripherique</th>
-        <th></th>
-        <th  class="hide-on-small-only"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="hide-on-small-only"></td>
-        <td>
-          <div class="hide-on-small-only">
-        <a class="waves-effect waves-light btn btn-small" [routerLink]="['/MoodsCreate/']">
-          <i class="material-icons right">add</i>Ajouter</a>
-        </div>
-        <div class="hide-on-med-and-up"><i class="material-icons" [routerLink]="['/MoodsCreate/']">add</i></div>
-      </td>
-      </tr>
-      <tr *ngFor="let mood of moods">
-        <td>{{ mood.id }}</td>
-        <td><img src="/assets/{{ mood.moodFace.picture }}" style="height: 30px;padding-right: 10px"></td>
-        <td>{{ mood.date }}</td>
-        <td>{{ mood.device.label }}</td>
-        <td>
-          <a class="waves-effect waves-light btn btn-small hide-on-small-only" [routerLink]="['/MoodsEdit/', mood.id]"><i class="material-icons right">edit</i>Modifier</a>
-          <div class="hide-on-med-and-up"><i class=" material-icons" [routerLink]="['/MoodsEdit/', mood.id]">edit</i></div>
-        </td>
-        <td class="hide-on-small-only">
-          <a class="waves-effect waves-light btn btn-small" (click)="selectMood(mood.id)" onclick="M.Modal.init(document.querySelector('.modal')).open()" ><i class="material-icons right">delete</i>Supprimer</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        <thead>
+          <tr>
+            <th>Identifiant</th>
+            <th>Image</th>
+            <th>Date</th>
+            <th>Peripherique</th>
+            <th></th>
+            <th class="hide-on-small-only"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="hide-on-small-only"></td>
+            <td>
+              <div class="hide-on-small-only">
+                <a class="waves-effect waves-light btn btn-small" [routerLink]="['/MoodsCreate/']">
+                  <i class="material-icons right">add</i>Ajouter</a>
+              </div>
+              <div class="hide-on-med-and-up"><i class="material-icons" [routerLink]="['/MoodsCreate/']">add</i></div>
+            </td>
+          </tr>
+          <tr *ngFor="let mood of moods">
+            <td>{{ mood.id }}</td>
+            <td><img src="/assets/{{ mood.moodFace.picture }}" style="height: 30px;padding-right: 10px"></td>
+            <td>{{ mood.date }}</td>
+            <td>{{ mood.device.label }}</td>
+            <td>
+              <a class="waves-effect waves-light btn btn-small hide-on-small-only"
+                [routerLink]="['/MoodsEdit/', mood.id]"><i class="material-icons right">edit</i>Modifier</a>
+              <div class="hide-on-med-and-up"><i class=" material-icons"
+                  [routerLink]="['/MoodsEdit/', mood.id]">edit</i></div>
+            </td>
+            <td class="hide-on-small-only">
+              <a class="waves-effect waves-light btn btn-small" (click)="selectMood(mood.id)"
+                onclick="M.Modal.init(document.querySelector('.modal')).open()"><i
+                  class="material-icons right">delete</i>Supprimer</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-</div>
 
-    <!-- Modal Structure -->
-    <div class="modal">
-      <div class="modal-content">
-        <h4>Confirmation</h4>
-        <p>Etes vous sur de vouloir supprimer cette ligne ?</p>
-      </div>
-      <div class="modal-footer">
-        <a (click)="deleteSelectedMood()" class="modal-close waves-effect waves-green btn-flat">OUI</a>
-      </div>
-    </div>
+<!-- Modal Structure -->
+<div class="modal">
+  <div class="modal-content">
+    <h4>Confirmation</h4>
+    <p>Etes vous sur de vouloir supprimer cette ligne ?</p>
+  </div>
+  <div class="modal-footer">
+    <a (click)="deleteSelectedMood()" class="modal-close waves-effect waves-green btn-flat">OUI</a>
+  </div>
+</div>

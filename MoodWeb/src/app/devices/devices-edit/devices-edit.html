@@ -2,23 +2,25 @@
 
 <div *ngIf="device" class="row">
     <div class="card" style="margin: auto; margin-top: 50px;">
-    <div class="card-content">
-        <span class="card-title"><i class="material-icons left">devices</i>Modifier un peripherique</span>
-<br><br>
-        <div class="input-field">
-            <input placeholder=" " id="label" type="text" [(ngModel)]="device.label" value="..." class="validate">
-            <label for="label" class="active">Nom du peripherique</label>
+        <div class="card-content">
+            <span class="card-title"><i class="material-icons left">devices</i>Modifier un peripherique</span>
+            <br><br>
+            <div class="input-field">
+                <input placeholder=" " id="label" type="text" [(ngModel)]="device.label" value="..." class="validate">
+                <label for="label" class="active">Nom du peripherique</label>
+            </div>
+
+            <label>
+                <input type="checkbox" checked="checked" [(ngModel)]="device.isActive" />
+                <span>Actif</span>
+            </label>
         </div>
 
-        <label>
-            <input type="checkbox" checked="checked" [(ngModel)]="device.isActive" />
-            <span>Actif</span>
-        </label>
-    </div>
-
-    <div class="card-action">
-        <a class="waves-effect waves-light btn" type="submit" (click)="save()" style="margin-right: 20px;" ><i class="material-icons right">save</i>Enregistrer</a>
-        <a class="waves-effect waves-light btn" [routerLink]="['/DevicesList/']"><i class="material-icons right">cancel</i>Annuler</a>
-    </div>
+        <div class="card-action">
+            <a class="waves-effect waves-light btn" type="submit" (click)="save()" style="margin-right: 20px;"><i
+                    class="material-icons right">save</i>Enregistrer</a>
+            <a class="waves-effect waves-light btn" [routerLink]="['/DevicesList/']"><i
+                    class="material-icons right">cancel</i>Annuler</a>
+        </div>
     </div>
 </div>

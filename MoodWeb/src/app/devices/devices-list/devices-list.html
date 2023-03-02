@@ -3,7 +3,7 @@
 
 <div *ngIf="devices" class="row">
   <div class="card" style="margin: auto; margin-top: 50px;">
-  <div class="card-content">
+    <div class="card-content">
       <span class="card-title"><i class="material-icons left">devices</i>Peripheriques</span>
       <table class='table table-striped highlight' aria-labelledby="tableLabel">
         <thead>
@@ -19,15 +19,19 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesCreate/']"><i class="material-icons right">add</i>Ajouter</a></td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesCreate/']"><i
+                  class="material-icons right">add</i>Ajouter</a></td>
           </tr>
           <tr *ngFor="let device of devices">
             <td>{{ device.id }}</td>
             <td>{{ device.label }}</td>
-            <td><ouiNon [val]=device.isActive ></ouiNon></td>
-            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesEdit/', device.id]"><i class="material-icons right">edit</i>Modifier</a></td>
+            <td>
+              <ouiNon [val]=device.isActive></ouiNon>
+            </td>
+            <td><a class="waves-effect waves-light btn right" [routerLink]="['/DevicesEdit/', device.id]"><i
+                  class="material-icons right">edit</i>Modifier</a></td>
           </tr>
         </tbody>
       </table>
+    </div>
   </div>
-</div>

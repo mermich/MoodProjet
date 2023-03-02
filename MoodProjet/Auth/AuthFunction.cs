@@ -2,15 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MoodProjet.Auth
@@ -26,13 +19,13 @@ namespace MoodProjet.Auth
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             UserLogin userLogin = JsonConvert.DeserializeObject<UserLogin>(requestBody);
 
-            var loginResult = AuthDataManager.Login(userLogin);
+            UserLoginResult loginResult = AuthDataManager.Login(userLogin);
 
             var res = new
             {
-                Login = loginResult.Login,
+                loginResult.Login,
                 Token = JwtHelper.GenerateToken(loginResult),
-                IsLoginOK = loginResult.IsLoginOK
+                loginResult.IsLoginOK
             };
 
             return new OkObjectResult(res);

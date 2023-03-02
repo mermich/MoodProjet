@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MoodProjet.Charts
+﻿namespace MoodProjet.Charts
 {
     public class MoodByHour
     {

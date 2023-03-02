@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   template: `<i *ngIf="val"  class='material-icons'>thumb_up</i><i *ngIf="!val"  class='material-icons'>close</i>`,
   styles: []
 })
-export class OuiNon  {
+export class OuiNon {
   @Input()
-  public val:boolean= false;
+  public val: boolean = false;
 }

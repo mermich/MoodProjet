@@ -6,5 +6,5 @@ import { Component, Input, } from '@angular/core';
 })
 export class Child {
   @Input()
-  public dataLabel: string= '';
+  public dataLabel: string = '';
 }

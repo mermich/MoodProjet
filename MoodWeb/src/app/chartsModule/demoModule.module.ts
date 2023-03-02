@@ -7,17 +7,17 @@ import { ChartsComponent } from './chartsComponent.component';
 
 
 const routes: Routes = [
-    { path: 'barchart', component: BarchartDemoComponent },
-    { path: 'moodByHours', component: MoodByHourComponent },
-    { path: 'charts', component: ChartsComponent }
-  ];
+  { path: 'barchart', component: BarchartDemoComponent },
+  { path: 'moodByHours', component: MoodByHourComponent },
+  { path: 'charts', component: ChartsComponent }
+];
 
- @NgModule({
-   declarations: [ BarchartDemoComponent, MoodByHourComponent, ChartsComponent ],
-   imports: [
-      RouterModule.forRoot(routes),
-      NgChartsModule
-   ],
-   providers: []
- })
- export class ChartsModule { }
+@NgModule({
+  declarations: [BarchartDemoComponent, MoodByHourComponent, ChartsComponent],
+  imports: [
+    RouterModule.forRoot(routes),
+    NgChartsModule
+  ],
+  providers: []
+})
+export class ChartsModule { }

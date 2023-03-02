@@ -30,11 +30,11 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
 
-  { path: '', component: MoodsCreate }    
+  { path: '', component: MoodsCreate }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),CommonModule],
+  imports: [RouterModule.forRoot(routes), CommonModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

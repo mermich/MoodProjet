@@ -3,27 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace MoodProjet.Init
 {
     public static class InitFunction
     {
         [FunctionName("Init-CheckDB")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "CheckDB")] HttpRequest req)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "CheckDB")] HttpRequest req)
         {
             return new OkObjectResult(InitDataManager.CheckDbConn());
         }
 
         [FunctionName("Init-InitDB")]
-        public static async Task<IActionResult> InitDB([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "InitDB")] HttpRequest req)
+        public static IActionResult InitDB([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "InitDB")] HttpRequest req)
         {
             return new OkObjectResult(InitDataManager.InitDB());
         }
 
 
         [FunctionName("Init-SetConfigurationTables")]
-        public static async Task<IActionResult> SetConfigurationTables([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetConfigurationTables")] HttpRequest req)
+        public static IActionResult SetConfigurationTables([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetConfigurationTables")] HttpRequest req)
         {
             return new OkObjectResult(InitDataManager.SetConfigurationTables());
         }
@@ -32,20 +31,21 @@ namespace MoodProjet.Init
 
 
         [FunctionName("Init-SetEntriesTables")]
-        public static async Task<IActionResult> UpdateMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetEntriesTables")] HttpRequest req, ILogger log)
+        public static IActionResult UpdateMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetEntriesTables")] HttpRequest req, ILogger log)
         {
             return new OkObjectResult(InitDataManager.SetEntriesTables());
         }
 
         [FunctionName("Init-SetUsers")]
-        public static async Task<IActionResult> SetUsers([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetUsers")] HttpRequest req, ILogger log) {
+        public static IActionResult SetUsers([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetUsers")] HttpRequest req, ILogger log)
+        {
             return new OkObjectResult(InitDataManager.SetUsers());
         }
 
 
 
         [FunctionName("Init-KickStart")]
-        public static async Task<IActionResult> KickStart([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "KickStart")] HttpRequest req, ILogger log)
+        public static IActionResult KickStart([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "KickStart")] HttpRequest req, ILogger log)
         {
             var res = new
             {

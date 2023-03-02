@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginResultService } from 'src/app/auth/LoginResultService';
 import { Device } from "../../models"
 
 @Component({
@@ -10,22 +11,30 @@ import { Device } from "../../models"
   styles: [
   ]
 })
-export class DeviceCreateComponent {
-  private httpClient: HttpClient;
+export class DeviceCreateComponent implements OnInit {
   public device: Device = new Device;
-  public router: Router;
 
-  @ViewChild('createDeviceForm') 
+  @ViewChild('createDeviceForm')
   createDeviceForm!: NgForm;
 
-  constructor(router: Router, http: HttpClient) {
-    this.router = router;
-    this.httpClient = http;
+  constructor(private httpClient: HttpClient, private router: Router, private loginResultService: LoginResultService) { }
+
+  ngOnInit(): void {
+    if (this.loginResultService.LoginToken.CanAdminDevices) {
+      // ok.
+    }
+    else {
+      this.router.navigate(['/login', { redirectTo: 'DevicesList' }]);
+    }
   }
 
-  save()
-  {
-    this.httpClient.post(`http://localhost:7120/api/Devices/`, this.device)
+  save() {
+    const headers = new HttpHeaders();
+    var finalHeader = headers
+      .append('Content-Type', 'application/json; charset=utf-8')
+      .append('Authorization', `Bearer ${this.loginResultService.LoginTokenString}`);
+
+    this.httpClient.post(`http://localhost:7120/api/Devices/`, this.device, { headers: finalHeader })
       .subscribe(result => this.router.navigate(['/DevicesList']))
   }
 }

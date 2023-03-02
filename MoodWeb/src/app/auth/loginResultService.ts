@@ -3,8 +3,8 @@ import { LoginToken } from "../models";
 
 @Injectable({
   providedIn: 'root',
- })
+})
 export class LoginResultService {
-  public LoginTokenString: string|undefined;
-  public LoginToken: LoginToken|undefined;
+  public LoginTokenString: string | undefined;
+  public LoginToken: LoginToken = new LoginToken();
 }

@@ -32,7 +32,7 @@ import { LoginResultService } from './auth/LoginResultService';
   declarations: [
     AppComponent,
     NavMenuComponent,
-    
+
     DevicesList,
     DevicesEdit,
     DeviceCreateComponent,
@@ -52,7 +52,7 @@ import { LoginResultService } from './auth/LoginResultService';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    AppRoutingModule,    
+    AppRoutingModule,
     ParentChildDemoModule,
     DemoModule,
     ChartsModule,

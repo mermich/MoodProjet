@@ -1,5 +1,5 @@
 export class MoodFace {
   label: string = "";
-  isActive:boolean = true;
+  isActive: boolean = true;
   picture: string = "";
 }

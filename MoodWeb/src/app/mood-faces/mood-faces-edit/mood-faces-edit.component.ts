@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MoodFace } from "../../models";
+import { LoginResultService } from 'src/app/auth/LoginResultService';
 
 
 @Component({
@@ -10,38 +11,54 @@ import { MoodFace } from "../../models";
   styles: []
 })
 export class MoodFacesEdit implements OnInit {
-  private httpClient: HttpClient;
-  private activedRoute: ActivatedRoute;
-  public moodFace: MoodFace|undefined;
-  public router: Router;
+  public moodFace: MoodFace | undefined;
 
-  constructor(router: Router, http: HttpClient, activedRoute: ActivatedRoute) {
-    this.router = router;
-    this.httpClient = http;
-    this.activedRoute = activedRoute;
-  }
+  constructor(private router: Router, private httpClient: HttpClient, private activedRoute: ActivatedRoute, private loginResultService: LoginResultService) { }
 
   ngOnInit() {
-    let id = this.activedRoute.snapshot.paramMap.get('id');
-    console.log('ngOnInit');
-    console.log(id);
-    this.httpClient.get<MoodFace>(`http://localhost:7120/api/MoodFaces/${id}`).subscribe(result => {
-      this.moodFace = result;
-    }, error =>{ console.error(error)}
-    );
+    if (this.loginResultService.LoginToken.CanAdminMoodFaces) {
+      // ok
+      console.log('ngOnInit');
+      let id = this.activedRoute.snapshot.paramMap.get('id');
+      console.log(id);
+
+      const headers = new HttpHeaders();
+      var finalHeader = headers
+        .append('Content-Type', 'application/json; charset=utf-8')
+        .append('Authorization', `Bearer ${this.loginResultService.LoginTokenString}`);
+
+      this.httpClient.get<MoodFace>(`http://localhost:7120/api/MoodFaces/${id}`, { headers: finalHeader }).subscribe(result => {
+        this.moodFace = result;
+      }, error => { console.error(error) }
+      );
+    }
+    else {
+      this.router.navigate(['/login', { redirectTo: 'MoodFacesList' }]);
+    }
   }
 
   delete() {
     if (this.moodFace != undefined) {
-        this.httpClient.delete(`http://localhost:7120/api/MoodFaces/${this.moodFace.id}`)
-          .subscribe(result => this.router.navigate(['/MoodFacesList']));
-      }
-    }
 
-    save() {
-      if (this.moodFace != undefined) {
-        this.httpClient.put(`http://localhost:7120/api/MoodFaces`, this.moodFace)
-          .subscribe(result => this.router.navigate(['/MoodFacesList']));
-        }
-      }
+      const headers = new HttpHeaders();
+      var finalHeader = headers
+        .append('Content-Type', 'application/json; charset=utf-8')
+        .append('Authorization', `Bearer ${this.loginResultService.LoginTokenString}`);
+
+      this.httpClient.delete(`http://localhost:7120/api/MoodFaces/${this.moodFace.id}`, { headers: finalHeader })
+        .subscribe(result => this.router.navigate(['/MoodFacesList']));
+    }
+  }
+
+  save() {
+    if (this.moodFace != undefined) {
+      const headers = new HttpHeaders();
+      var finalHeader = headers
+        .append('Content-Type', 'application/json; charset=utf-8')
+        .append('Authorization', `Bearer ${this.loginResultService.LoginTokenString}`);
+
+      this.httpClient.put(`http://localhost:7120/api/MoodFaces`, this.moodFace, { headers: finalHeader })
+        .subscribe(result => this.router.navigate(['/MoodFacesList']));
+    }
+  }
 }

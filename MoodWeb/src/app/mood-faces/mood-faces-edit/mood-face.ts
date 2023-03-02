@@ -1,6 +1,6 @@
 export interface MoodFace {
   id: number;
-  label: string; 
-  picture: string; 
-  isActive:boolean; 
+  label: string;
+  picture: string;
+  isActive: boolean;
 }
