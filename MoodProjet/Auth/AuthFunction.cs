@@ -8,27 +8,24 @@ using System.Threading.Tasks;
 
 namespace MoodProjet.Auth
 {
-    public static class MoodFaceFunction
-    {
+	public static class MoodFaceFunction
+	{
+		[FunctionName("Auth-Login")]
+		public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Login")] HttpRequest req)
+		{
+			string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+			UserLogin userLogin = JsonConvert.DeserializeObject<UserLogin>(requestBody);
 
-        private const string PayloadKey = "key";
-        [FunctionName("Auth-Login")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Login")] HttpRequest req)
-        {
+			UserLoginResult loginResult = AuthDataManager.Login(userLogin);
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            UserLogin userLogin = JsonConvert.DeserializeObject<UserLogin>(requestBody);
+			var res = new
+			{
+				loginResult.Login,
+				Token = JwtHelper.GenerateToken(loginResult),
+				loginResult.IsLoginOK
+			};
 
-            UserLoginResult loginResult = AuthDataManager.Login(userLogin);
-
-            var res = new
-            {
-                loginResult.Login,
-                Token = JwtHelper.GenerateToken(loginResult),
-                loginResult.IsLoginOK
-            };
-
-            return new OkObjectResult(res);
-        }
-    }
+			return new OkObjectResult(res);
+		}
+	}
 }
