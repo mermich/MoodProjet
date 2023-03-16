@@ -43,35 +43,6 @@ namespace MoodProjet.Auth
         }
 
 
-        public static bool ValidateCurrentToken(string token)
-        {
-            SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
-
-            string myIssuer = "http://localhost";
-            string myAudience = "http://localhost";
-
-            JwtSecurityTokenHandler tokenHandler = new();
-            try
-            {
-                _ = tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = myIssuer,
-                    ValidAudience = myAudience,
-                    IssuerSigningKey = mySecurityKey
-                }, out SecurityToken validatedToken);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-
-
         private static JwtSecurityToken ExtractJwtSecurityTokenFromRequest(HttpRequest request)
         {
             if (request.Headers.ContainsKey("Authorization"))
