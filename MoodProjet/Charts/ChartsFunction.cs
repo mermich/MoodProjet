@@ -12,8 +12,7 @@ namespace MoodProjet.Charts
         [FunctionName("Charts-GetChartData")]
         public static IActionResult GetChartData([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanSeeCharts);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpirationCorrection(req, JwtHelper.CanSeeCharts))
             {
                 List<ChartData> data = ChartsDataManager.GetChartData();
                 return new OkObjectResult(data);
@@ -28,8 +27,7 @@ namespace MoodProjet.Charts
         [FunctionName("Charts-GetMoodByHours")]
         public static IActionResult GetMoodByHours([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanSeeCharts);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanSeeCharts))
             {
                 List<MoodByHour> data = ChartsDataManager.GetMoodByHours();
                 return new OkObjectResult(data);

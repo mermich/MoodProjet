@@ -19,8 +19,7 @@ namespace MoodProjet.MoodEntries
         [FunctionName("MoodEntries-List")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "MoodEntries")] HttpRequest req)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodEntries);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodEntries))
             {
                 List<MoodEntry> moodEntrys = MoodEntriesDataManager.ListMoodEntries().Take(100).ToList();
 
@@ -53,13 +52,18 @@ namespace MoodProjet.MoodEntries
             }
         }
 
+
         [FunctionName("MoodEntries-Get")]
         public static IActionResult GetMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "MoodEntries/{id}")] HttpRequest req, int id)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodEntries);
-            return canAdminDevices
-                ? new OkObjectResult(MoodEntriesDataManager.ListMoodEntries().FirstOrDefault(c => c.Id == id))
-                : new BadRequestResult();
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodEntries))
+            {
+                return new OkObjectResult(MoodEntriesDataManager.ListMoodEntries().FirstOrDefault(c => c.Id == id));
+             }
+            else
+            {
+                return new BadRequestResult();
+            }
         }
 
         [FunctionName("MoodEntries-Save")]
@@ -75,8 +79,7 @@ namespace MoodProjet.MoodEntries
         [FunctionName("MoodEntries-Update")]
         public static async Task<IActionResult> UpdateMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "MoodEntries")] HttpRequest req, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodEntries);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodEntries))
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 MoodEntry moodEntry = JsonConvert.DeserializeObject<MoodEntry>(requestBody);
@@ -93,8 +96,7 @@ namespace MoodProjet.MoodEntries
         [FunctionName("MoodEntries-Delete")]
         public static IActionResult DeleteMoodEntry([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "MoodEntries/{id}")] HttpRequest req, int id, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodEntries);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodEntries))
             {
                 MoodEntriesDataManager.DeleteMoodEntry(id);
                 return new OkObjectResult(id);

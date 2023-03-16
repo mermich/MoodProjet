@@ -30,8 +30,7 @@ namespace MoodProjet.MoodFaces
         [FunctionName("MoodFaces-Save")]
         public static async Task<IActionResult> SaveMoodFace([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "MoodFaces")] HttpRequest req)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodFaces);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodFaces))
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 MoodFace moodFace = JsonConvert.DeserializeObject<MoodFace>(requestBody);
@@ -48,8 +47,7 @@ namespace MoodProjet.MoodFaces
         [FunctionName("MoodFaces-Update")]
         public static async Task<IActionResult> UpdateMoodFace([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "MoodFaces")] HttpRequest req, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodFaces);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodFaces))
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 MoodFace moodFace = JsonConvert.DeserializeObject<MoodFace>(requestBody);
@@ -66,8 +64,7 @@ namespace MoodProjet.MoodFaces
         [FunctionName("MoodFaces-Delete")]
         public static IActionResult DeleteMoodFace([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "MoodFaces/{id}")] HttpRequest req, int id, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminMoodFaces);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminMoodFaces))
             {
                 MoodFacesDataManager.DeleteMoodFace(id);
                 return new OkObjectResult(id);

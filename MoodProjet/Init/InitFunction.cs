@@ -36,6 +36,8 @@ namespace MoodProjet.Init
             return new OkObjectResult(InitDataManager.SetEntriesTables());
         }
 
+
+
         [FunctionName("Init-SetUsers")]
         public static IActionResult SetUsers([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SetUsers")] HttpRequest req, ILogger log)
         {

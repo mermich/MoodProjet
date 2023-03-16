@@ -26,7 +26,7 @@ namespace MoodProjet.Auth
                 {
                     new Claim(ClaimTypes.NameIdentifier, loginResult.Login.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 Issuer = myIssuer,
                 Audience = myAudience,
                 SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
@@ -70,23 +70,55 @@ namespace MoodProjet.Auth
             return true;
         }
 
-        public static string GetClaim(string token, string claimType)
-        {
-            token = token.Replace("Bearer ", "");
 
-            JwtSecurityTokenHandler tokenHandler = new();
-            JwtSecurityToken securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
-            string stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
-            return stringClaimValue;
-        }
-
-        public static bool GetClaimAsBool(HttpRequest request, string claimType)
+        private static JwtSecurityToken ExtractJwtSecurityTokenFromRequest(HttpRequest request)
         {
             if (request.Headers.ContainsKey("Authorization"))
             {
-                string claimString = GetClaim(request.Headers["Authorization"], claimType);
-                return claimString.ToLowerInvariant() == true.ToString().ToLowerInvariant();
+                Microsoft.Extensions.Primitives.StringValues a = request.Headers["Authorization"];
+
+                string token = a.ToString().Replace("Bearer ", "");
+                JwtSecurityTokenHandler tokenHandler = new();
+                JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                return jwtToken;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+
+        public static bool HasClaim(JwtSecurityToken jwtToken, string claimType)
+        {
+            if (jwtToken == null || jwtToken.Claims == null || jwtToken.Claims.Count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                Claim matchingClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == claimType);
+                if (matchingClaim != null)
+                {
+                    string stringClaimValue = matchingClaim.Value;
+                    return stringClaimValue.ToLowerInvariant() == true.ToString().ToLowerInvariant();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool CheckPermissionAndExpiration(HttpRequest request, string claimType)
+        {
+            JwtSecurityToken jwtToken = ExtractJwtSecurityTokenFromRequest(request);
+
+            if (HasClaim(jwtToken, claimType))
+            {
+                return jwtToken.ValidTo >= DateTime.UtcNow;
             }
             else
             {

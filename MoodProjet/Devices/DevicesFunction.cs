@@ -31,8 +31,7 @@ namespace MoodProjet.Devices
         [FunctionName("Devices-Save")]
         public static async Task<IActionResult> SaveDevice([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Devices")] HttpRequest req)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminDevices);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminDevices))
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 Device device = JsonConvert.DeserializeObject<Device>(requestBody);
@@ -49,8 +48,7 @@ namespace MoodProjet.Devices
         [FunctionName("Devices-Update")]
         public static async Task<IActionResult> UpdateDevice([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "Devices")] HttpRequest req, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminDevices);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminDevices))
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 Device device = JsonConvert.DeserializeObject<Device>(requestBody);
@@ -67,8 +65,7 @@ namespace MoodProjet.Devices
         [FunctionName("Devices-Delete")]
         public static IActionResult DeleteDevice([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "Devices/{id}")] HttpRequest req, int id, ILogger log)
         {
-            bool canAdminDevices = JwtHelper.GetClaimAsBool(req, JwtHelper.CanAdminDevices);
-            if (canAdminDevices)
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanAdminDevices))
             {
                 DevicesDataManager.DeleteDevice(id);
                 return new OkObjectResult(id);
