@@ -12,7 +12,7 @@ namespace MoodProjet.Charts
         [FunctionName("Charts-GetChartData")]
         public static IActionResult GetChartData([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            if (JwtHelper.CheckPermissionAndExpirationCorrection(req, JwtHelper.CanSeeCharts))
+            if (JwtHelper.CheckPermissionAndExpiration(req, JwtHelper.CanSeeCharts))
             {
                 List<ChartData> data = ChartsDataManager.GetChartData();
                 return new OkObjectResult(data);

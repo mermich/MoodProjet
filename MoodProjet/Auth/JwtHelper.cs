@@ -9,97 +9,97 @@ using System.Text;
 
 namespace MoodProjet.Auth
 {
-    public static class JwtHelper
-    {
-        private const string secret = "asdv234234^&%&^%&^hjsdfb2%%%";
-        public static string GenerateToken(UserLoginResult loginResult)
-        {
-            SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
+	public static class JwtHelper
+	{
+		private const string secret = "asdv234234^&%&^%&^hjsdfb2%%%";
+		public static string GenerateToken(UserLoginResult loginResult)
+		{
+			SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
 
-            string myIssuer = "http://localhost";
-            string myAudience = "http://localhost";
+			string myIssuer = "http://localhost";
+			string myAudience = "http://localhost";
 
-            JwtSecurityTokenHandler tokenHandler = new();
-            SecurityTokenDescriptor tokenDescriptor = new()
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, loginResult.Login.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                Issuer = myIssuer,
-                Audience = myAudience,
-                SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
-                Claims = new Dictionary<string, object> {
-                    { CanAdminDevices, loginResult.CanAdminDevices },
-                    { CanAdminMoodEntries, loginResult.CanAdminMoodEntries },
-                    { CanAdminMoodFaces, loginResult.CanAdminMoodFaces },
-                    { CanSeeCharts, loginResult.CanSeeCharts }
-                }
-            };
+			JwtSecurityTokenHandler tokenHandler = new();
+			SecurityTokenDescriptor tokenDescriptor = new()
+			{
+				Subject = new ClaimsIdentity(new Claim[]
+				 {
+						  new Claim(ClaimTypes.NameIdentifier, loginResult.Login.ToString()),
+				 }),
+				Expires = DateTime.UtcNow.AddMinutes(1),
+				Issuer = myIssuer,
+				Audience = myAudience,
+				SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
+				Claims = new Dictionary<string, object> {
+						  { CanAdminDevices, loginResult.CanAdminDevices },
+						  { CanAdminMoodEntries, loginResult.CanAdminMoodEntries },
+						  { CanAdminMoodFaces, loginResult.CanAdminMoodFaces },
+						  { CanSeeCharts, loginResult.CanSeeCharts }
+					 }
+			};
 
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
-
-        private static JwtSecurityToken ExtractJwtSecurityTokenFromRequest(HttpRequest request)
-        {
-            if (request.Headers.ContainsKey("Authorization"))
-            {
-                Microsoft.Extensions.Primitives.StringValues a = request.Headers["Authorization"];
-
-                string token = a.ToString().Replace("Bearer ", "");
-                JwtSecurityTokenHandler tokenHandler = new();
-                JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                return jwtToken;
-            }
-            else
-            {
-                return null;
-            }
-        }
+			SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+			return tokenHandler.WriteToken(token);
+		}
 
 
+		private static JwtSecurityToken ExtractJwtSecurityTokenFromRequest(HttpRequest request)
+		{
+			if (request.Headers.ContainsKey("Authorization"))
+			{
+				Microsoft.Extensions.Primitives.StringValues a = request.Headers["Authorization"];
 
-        public static bool HasClaim(JwtSecurityToken jwtToken, string claimType)
-        {
-            if (jwtToken == null || jwtToken.Claims == null || jwtToken.Claims.Count() == 0)
-            {
-                return false;
-            }
-            else
-            {
-                Claim matchingClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == claimType);
-                if (matchingClaim != null)
-                {
-                    string stringClaimValue = matchingClaim.Value;
-                    return stringClaimValue.ToLowerInvariant() == true.ToString().ToLowerInvariant();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+				string token = a.ToString().Replace("Bearer ", "");
+				JwtSecurityTokenHandler tokenHandler = new();
+				JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+				return jwtToken;
+			}
+			else
+			{
+				return null;
+			}
+		}
 
-        public static bool CheckPermissionAndExpiration(HttpRequest request, string claimType)
-        {
-            JwtSecurityToken jwtToken = ExtractJwtSecurityTokenFromRequest(request);
 
-            if (HasClaim(jwtToken, claimType))
-            {
-                return jwtToken.ValidTo >= DateTime.UtcNow;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        public const string CanAdminDevices = "CanAdminDevices";
-        public const string CanAdminMoodEntries = "CanAdminMoodEntries";
-        public const string CanAdminMoodFaces = "CanAdminMoodFaces";
-        public const string CanSeeCharts = "CanSeeCharts";
-    }
+		public static bool HasClaim(JwtSecurityToken jwtToken, string claimType)
+		{
+			if (jwtToken == null || jwtToken.Claims == null || jwtToken.Claims.Count() == 0)
+			{
+				return false;
+			}
+			else
+			{
+				Claim matchingClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == claimType);
+				if (matchingClaim != null)
+				{
+					string stringClaimValue = matchingClaim.Value;
+					return stringClaimValue.ToLowerInvariant() == true.ToString().ToLowerInvariant();
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
+		public static bool CheckPermissionAndExpiration(HttpRequest request, string claimType)
+		{
+			JwtSecurityToken jwtToken = ExtractJwtSecurityTokenFromRequest(request);
+
+			if (HasClaim(jwtToken, claimType))
+			{
+				return jwtToken.ValidTo >= DateTime.UtcNow;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public const string CanAdminDevices = "CanAdminDevices";
+		public const string CanAdminMoodEntries = "CanAdminMoodEntries";
+		public const string CanAdminMoodFaces = "CanAdminMoodFaces";
+		public const string CanSeeCharts = "CanSeeCharts";
+	}
 }
