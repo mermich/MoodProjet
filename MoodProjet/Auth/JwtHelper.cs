@@ -9,94 +9,97 @@ using System.Text;
 
 namespace MoodProjet.Auth
 {
-	public static class JwtHelper
-	{
-		private const string secret = "asdv234234^&%&^%&^hjsdfb2%%%";
-		public static string GenerateToken(UserLoginResult loginResult)
-		{
-			SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
+    public static class JwtHelper
+    {
+        private const string secret = "asdv234234^&%&^%&^hjsdfb2%%%";
+        public static string GenerateToken(UserLoginResult loginResult)
+        {
+            SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
 
-			string myIssuer = "http://localhost";
-			string myAudience = "http://localhost";
+            string myIssuer = "http://localhost";
+            string myAudience = "http://localhost";
 
-			JwtSecurityTokenHandler tokenHandler = new();
-			SecurityTokenDescriptor tokenDescriptor = new()
-			{
-				Subject = new ClaimsIdentity(new Claim[]
-				 {
-						  new Claim(ClaimTypes.NameIdentifier, loginResult.Login.ToString()),
-				 }),
-				Expires = DateTime.UtcNow.AddDays(7),
-				Issuer = myIssuer,
-				Audience = myAudience,
-				SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
-				Claims = new Dictionary<string, object> {
-						  { CanAdminDevices, loginResult.CanAdminDevices },
-						  { CanAdminMoodEntries, loginResult.CanAdminMoodEntries },
-						  { CanAdminMoodFaces, loginResult.CanAdminMoodFaces },
-						  { CanSeeCharts, loginResult.CanSeeCharts }
-					 }
-			};
+            JwtSecurityTokenHandler tokenHandler = new();
+            SecurityTokenDescriptor tokenDescriptor = new()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, loginResult.Login.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(1),
+                Issuer = myIssuer,
+                Audience = myAudience,
+                SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature),
+                Claims = new Dictionary<string, object> {
+                    { CanAdminDevices, loginResult.CanAdminDevices },
+                    { CanAdminMoodEntries, loginResult.CanAdminMoodEntries },
+                    { CanAdminMoodFaces, loginResult.CanAdminMoodFaces },
+                    { CanSeeCharts, loginResult.CanSeeCharts }
+                }
+            };
 
-			SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-			return tokenHandler.WriteToken(token);
-		}
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 
 
-		public static bool ValidateCurrentToken(string token)
-		{
-			SymmetricSecurityKey mySecurityKey = new(Encoding.ASCII.GetBytes(secret));
+        private static JwtSecurityToken ExtractJwtSecurityTokenFromRequest(HttpRequest request)
+        {
+            if (request.Headers.ContainsKey("Authorization"))
+            {
+                Microsoft.Extensions.Primitives.StringValues a = request.Headers["Authorization"];
 
-			string myIssuer = "http://localhost";
-			string myAudience = "http://localhost";
+                string token = a.ToString().Replace("Bearer ", "");
+                JwtSecurityTokenHandler tokenHandler = new();
+                JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                return jwtToken;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-			JwtSecurityTokenHandler tokenHandler = new();
-			try
-			{
-				_ = tokenHandler.ValidateToken(token, new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidIssuer = myIssuer,
-					ValidAudience = myAudience,
-					IssuerSigningKey = mySecurityKey
-				}, out SecurityToken validatedToken);
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
-		}
 
-		public static string GetClaim(string token, string claimType)
-		{
-			token = token.Replace("Bearer ", "");
 
-			JwtSecurityTokenHandler tokenHandler = new();
-			JwtSecurityToken securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+        public static bool HasClaim(JwtSecurityToken jwtToken, string claimType)
+        {
+            if (jwtToken == null || jwtToken.Claims == null || jwtToken.Claims.Count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                Claim matchingClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == claimType);
+                if (matchingClaim != null)
+                {
+                    string stringClaimValue = matchingClaim.Value;
+                    return stringClaimValue.ToLowerInvariant() == true.ToString().ToLowerInvariant();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
-			string stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
-			return stringClaimValue;
-		}
+        public static bool CheckPermissionAndExpiration(HttpRequest request, string claimType)
+        {
+            JwtSecurityToken jwtToken = ExtractJwtSecurityTokenFromRequest(request);
 
-		public static bool GetClaimAsBool(HttpRequest request, string claimType)
-		{
-			if (request.Headers.ContainsKey("Authorization"))
-			{
-				string claimString = GetClaim(request.Headers["Authorization"], claimType);
-				return claimString.ToLowerInvariant() == true.ToString().ToLowerInvariant();
-			}
-			else
-			{
-				return false;
-			}
-		}
+            if (HasClaim(jwtToken, claimType))
+            {
+                return jwtToken.ValidTo >= DateTime.UtcNow;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		public const string CanAdminDevices = "CanAdminDevices";
-		public const string CanAdminMoodEntries = "CanAdminMoodEntries";
-		public const string CanAdminMoodFaces = "CanAdminMoodFaces";
-		public const string CanSeeCharts = "CanSeeCharts";
-	}
+        public const string CanAdminDevices = "CanAdminDevices";
+        public const string CanAdminMoodEntries = "CanAdminMoodEntries";
+        public const string CanAdminMoodFaces = "CanAdminMoodFaces";
+        public const string CanSeeCharts = "CanSeeCharts";
+    }
 }
